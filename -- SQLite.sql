@@ -1,7 +1,9 @@
 SELECT
-  c.customer_id,
-  c.customer_state
+  o.order_id,
+  o.customer_id,
+  o.order_status,
+  o.order_approved_at
 FROM
-  customer c
+  orders o
 WHERE
-  c.customer_city = 'florianopolis'
+  o.order_approved_at < "2016-20-05"
