@@ -1,9 +1,4 @@
 SELECT
-  o.order_id,
-  o.customer_id,
-  o.order_status,
-  o.order_approved_at
+  MAX(op.payment_installments)
 FROM
-  orders o
-WHERE
-  o.order_approved_at < "2016-20-05"
+  order_payments op
