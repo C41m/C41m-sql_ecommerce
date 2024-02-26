@@ -1,4 +1,4 @@
 SELECT
-  MAX(op.payment_installments)
+  AVG(DISTINCT p.product_height_cm)
 FROM
-  order_payments op
+  products p
