@@ -1,12 +1,16 @@
 SELECT
-  op.payment_type,
-  op.payment_installments,
-  MIN(op.payment_value) AS min_val_parc,
-  MAX(op.payment_value) AS max_val_parc,
-  AVG(op.payment_value) AS med_val_parc,
-  SUM(op.payment_value) AS som_val_parc
+  o.order_status,
+  COUNT(o.order_id)
 FROM
   orders o
+WHERE
+  (
+    o.order_status = "processing"
+    OR o.order_status = "canceled"
+  )
+  AND (
+    DATE (o.order_estimated_delivery_date) >= "2017-01-01"
+    OR DATE (o.order_estimated_delivery_date) <= "2016-11-23"
+  )
 GROUP BY
-  op.payment_type,
-  op.payment_installments
+  o.order_status
