@@ -1,4 +1,7 @@
 SELECT
-  AVG(DISTINCT p.product_height_cm)
+  op.payment_type,
+  COUNT(op.order_id) AS pedidos
 FROM
-  products p
+  order_payments op
+GROUP BY
+  op.payment_type
