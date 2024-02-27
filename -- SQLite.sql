@@ -1,16 +1,21 @@
 SELECT
-  o.order_status,
-  COUNT(o.order_id)
+  p.product_category_name,
+  COUNT(DISTINCT p.product_id)
 FROM
-  orders o
+  products p
 WHERE
   (
-    o.order_status = "processing"
-    OR o.order_status = "canceled"
+    product_category_name = "perfumaria"
+    OR p.product_category_name = "brinquedos"
+    OR p.product_category_name = "esporte_lazer"
+    OR p.product_category_name = "cama_mesa_banho"
+    OR p.product_category_name = "moveis_escritorio"
   )
   AND (
-    DATE (o.order_estimated_delivery_date) >= "2017-01-01"
-    OR DATE (o.order_estimated_delivery_date) <= "2016-11-23"
+    p.product_photos_qty > 5
+    AND p.product_weight_g > 5
+    AND p.product_height_cm > 10
+    AND p.product_width_cm > 20
   )
 GROUP BY
-  o.order_status
+  p.product_category_name
