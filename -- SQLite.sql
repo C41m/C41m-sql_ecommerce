@@ -1,21 +1,13 @@
 SELECT
-  p.product_category_name,
-  COUNT(DISTINCT p.product_id)
+  c.customer_city AS cidade,
+  c.customer_state AS estado,
+  COUNT(c.customer_id) AS qnt_clientes
 FROM
-  products p
+  customer c
 WHERE
-  (
-    product_category_name = "perfumaria"
-    OR p.product_category_name = "brinquedos"
-    OR p.product_category_name = "esporte_lazer"
-    OR p.product_category_name = "cama_mesa_banho"
-    OR p.product_category_name = "moveis_escritorio"
-  )
-  AND (
-    p.product_photos_qty > 5
-    AND p.product_weight_g > 5
-    AND p.product_height_cm > 10
-    AND p.product_width_cm > 20
-  )
+  c.customer_city LIKE "m%o%a"
 GROUP BY
-  p.product_category_name
+  c.customer_state,
+  c.customer_city
+HAVING
+  COUNT(c.customer_id) > 10
