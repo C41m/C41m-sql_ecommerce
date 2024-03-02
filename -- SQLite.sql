@@ -1,13 +1,8 @@
 SELECT
-  c.customer_city AS cidade,
-  c.customer_state AS estado,
-  COUNT(c.customer_id) AS qnt_clientes
+  o.order_id AS id_pedido,
+  o.customer_id AS id_cliente,
+  o.order_status AS status_pedido,
+  oi.product_id AS id_produto,
+  oi.price AS preco
 FROM
-  customer c
-WHERE
-  c.customer_city LIKE "m%o%a"
-GROUP BY
-  c.customer_state,
-  c.customer_city
-HAVING
-  COUNT(c.customer_id) > 10
+  orders o INNER JOIN order_items oi ON (oi.order_id = o.order_id)
