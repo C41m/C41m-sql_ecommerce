@@ -1,19 +1,26 @@
 SELECT
-  o.order_id AS id_pedido,
-  c.customer_state AS estado_cliente,
-  c.customer_city AS cidade_cliente,
-  o.order_status AS status_pedido,
-  p.product_category_name AS categoria_produto,
-  oi.price AS preco,
-  s.seller_city AS cidade_vendedor,
-  s.seller_state AS estado_vendedor,
-  op.payment_type AS tipo_pagamento
+  o.order_id,
+  o.order_status,
+  oi.product_id,
+  p.product_category_name,
+  or2.review_score,
+  op.payment_value,
+  op.payment_type,
+  s.seller_city,
+  g.geolocation_lat,
+  g.geolocation_lng,
+  oi.seller_id,
+  s.seller_zip_code_prefix,
+  g.geolocation_zip_code_prefix
 FROM
   orders o
-  INNER JOIN customer c ON (o.customer_id = c.customer_id)
-  INNER JOIN order_items oi ON (o.order_id = oi.order_id)
-  INNER JOIN products p ON (oi.product_id = p.product_id)
-  INNER JOIN sellers s ON (oi.seller_id = s.seller_id)
-  INNER JOIN order_payments op ON (o.order_id = op.order_id)
-WHERE
-  op.payment_type = "boleto"
+  LEFT JOIN order_items oi ON (oi.order_id = o.order_id)
+  LEFT JOIN order_reviews or2 ON (or2.order_id = o.order_id)
+  LEFT JOIN order_payments op ON (op.order_id = o.order_id)
+  LEFT JOIN products p ON (p.product_id = oi.product_id)
+  LEFT JOIN sellers s ON (s.seller_id = oi.seller_id)
+  LEFT JOIN geolocation g ON (
+    g.geolocation_zip_code_prefix = s.seller_zip_code_prefix
+  )
+LIMIT
+  20;
